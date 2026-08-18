@@ -378,11 +378,13 @@ function SideCard({
   lang,
   reduce,
   index,
+  viewLabel,
 }: {
   item: CredentialItem;
   lang: "en" | "ar";
   reduce: boolean;
   index: number;
+  viewLabel: string;
 }) {
   const Icon = iconFor(item.id);
   return (
@@ -391,7 +393,7 @@ function SideCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: EASE, delay: reduce ? 0 : 0.08 * index }}
       whileHover={reduce ? {} : { y: -6 }}
-      className="rounded-2xl bg-card p-6 border border-border shadow-md flex flex-col items-center text-center hover:bg-card/90 transition-colors"
+      className="flex-1 rounded-2xl bg-card p-6 border border-border shadow-md flex flex-col items-center text-center hover:bg-card/90 transition-colors"
     >
       <div className="grid size-12 place-items-center rounded-xl bg-foreground/10 text-foreground mb-3">
         <Icon className="size-6 text-primary" />
@@ -405,6 +407,19 @@ function SideCard({
       <span className="rounded-xl bg-foreground/10 px-3 py-0.5 font-sans text-[9px] font-black tracking-widest text-primary uppercase border border-border">
         {item.year}
       </span>
+
+      <a
+        href={item.url ?? "/experience"}
+        target={item.url ? "_blank" : undefined}
+        rel={item.url ? "noreferrer" : undefined}
+        className="mt-auto pt-5 w-full"
+      >
+        <span className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 font-sans text-[10px] font-black uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-primary hover:text-primary-foreground">
+          {viewLabel}
+          <ChevronRight className="size-3.5 rtl:rotate-180" />
+        </span>
+      </a>
     </motion.div>
   );
 }
+
