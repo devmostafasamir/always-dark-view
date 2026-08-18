@@ -371,76 +371,73 @@ function ProjectDetail() {
 
           {/* Sticky Sidebar */}
           <aside className="space-y-8 lg:sticky lg:top-24 lg:col-span-4 lg:self-start lg:h-fit">
-            <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
               <div className="relative p-8 md:p-10">
-              <div className="pointer-events-none absolute -top-24 -right-24 size-64 rounded-xl bg-primary/10 blur-[100px]" />
+                <h3 className="mb-10 font-display text-2xl font-black tracking-wide uppercase">
+                  {tr("project.detail.brief")}
+                </h3>
 
-              <h3 className="mb-8 font-display text-2xl font-black tracking-wide uppercase">
-                {tr("project.detail.brief")}
-              </h3>
+                <div className="relative z-10 space-y-8">
+                  {project.client && (
+                    <BriefRow icon={Briefcase} label={tr("project.detail.client")}>
+                      {project.client}
+                    </BriefRow>
+                  )}
 
-
-              <div className="relative z-10 space-y-8">
-                {project.client && (
-                  <BriefRow icon={Briefcase} label={tr("project.detail.client")}>
-                    {project.client}
+                  <BriefRow icon={UserCog} label={tr("project.detail.role")}>
+                    {detail.role}
                   </BriefRow>
-                )}
 
-                <BriefRow icon={UserCog} label={tr("project.detail.role")}>
-                  {detail.role}
-                </BriefRow>
-
-                <BriefRow icon={Users} label={tr("project.detail.team")}>
-                  {detail.teamSize}
-                </BriefRow>
-
-                {project.database && (
-                  <BriefRow icon={Database} label={tr("project.detail.db")}>
-                    {project.database}
+                  <BriefRow icon={Users} label={tr("project.detail.team")}>
+                    {detail.teamSize}
                   </BriefRow>
-                )}
 
-                <BriefRow icon={CalendarCheck} label={tr("project.detail.timeline")}>
-                  {detail.timeline}
-                </BriefRow>
+                  {project.database && (
+                    <BriefRow icon={Database} label={tr("project.detail.db")}>
+                      {project.database}
+                    </BriefRow>
+                  )}
 
-                <BriefRow icon={MonitorSmartphone} label={tr("project.detail.platforms")}>
-                  {detail.platforms.join(" · ")}
-                </BriefRow>
+                  <BriefRow icon={CalendarCheck} label={tr("project.detail.timeline")}>
+                    {detail.timeline}
+                  </BriefRow>
 
-                <BriefRow icon={Globe} label={tr("project.detail.status")}>
-                  {hasLiveSite
-                    ? tr("project.detail.status.live")
-                    : tr("project.detail.status.local")}
-                </BriefRow>
-              </div>
+                  <BriefRow icon={MonitorSmartphone} label={tr("project.detail.platforms")}>
+                    {detail.platforms.join(" · ")}
+                  </BriefRow>
 
-              {/* Actions */}
-              <div className="relative z-10 mt-12 space-y-3">
-                {hasLiveSite && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-6 py-4 font-sans text-xs font-black tracking-widest uppercase text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:shadow-primary/25"
-                  >
-                    <ExternalLink className="size-4" />
-                    {tr("project.detail.visit")}
-                  </a>
-                )}
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-foreground/5 px-6 py-4 font-sans text-xs font-black tracking-widest uppercase text-foreground transition-all hover:bg-foreground/10"
-                  >
-                    <Github className="size-4" />
-                    {tr("project.detail.source")}
-                  </a>
-                )}
-              </div>
+                  <BriefRow icon={Globe} label={tr("project.detail.status")}>
+                    {hasLiveSite
+                      ? tr("project.detail.status.live")
+                      : tr("project.detail.status.local")}
+                  </BriefRow>
+                </div>
+
+                {/* Actions */}
+                <div className="relative z-10 mt-12 space-y-3">
+                  {hasLiveSite && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-primary px-6 py-4 font-sans text-xs font-black tracking-widest uppercase text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:shadow-primary/25"
+                    >
+                      <ExternalLink className="size-4" />
+                      {tr("project.detail.visit")}
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex w-full items-center justify-center gap-3 rounded-full border border-border bg-foreground/5 px-6 py-4 font-sans text-xs font-black tracking-widest uppercase text-foreground transition-all hover:bg-foreground/10"
+                    >
+                      <Github className="size-4" />
+                      {tr("project.detail.source")}
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
 
