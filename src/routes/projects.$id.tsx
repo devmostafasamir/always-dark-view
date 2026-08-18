@@ -216,9 +216,9 @@ function ProjectDetail() {
               className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
             >
               <div className="absolute inset-x-0 top-0 z-10 flex h-12 items-center gap-2 border-b border-border/50 bg-foreground/5 px-6 backdrop-blur-md">
-                <div className="size-3 rounded-full bg-foreground/20" />
-                <div className="size-3 rounded-full bg-foreground/20" />
-                <div className="size-3 rounded-full bg-foreground/20" />
+                <div className="size-3 rounded-full bg-[#ff5f57]" />
+                <div className="size-3 rounded-full bg-[#febc2e]" />
+                <div className="size-3 rounded-full bg-[#28c840]" />
               </div>
 
               <div className="aspect-[16/10] pt-12 sm:aspect-[16/9]">
