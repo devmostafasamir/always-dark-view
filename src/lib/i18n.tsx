@@ -227,6 +227,8 @@ const t: Dict = {
     en: "Microsoft Certified proficiency in Azure cloud architecture, DevOps, microservices & enterprise security.",
     ar: "اعتماد من مايكروسوفت في معمارية سحابة Azure و DevOps والخدمات المصغّرة وأمن المؤسسات.",
   },
+  "awards.itemsLabel": { en: "credentials in this set", ar: "شهادات في هذه المجموعة" },
+  "awards.viewCredential": { en: "View Credential", ar: "عرض الشهادة" },
   "awards.learnMore": { en: "VIEW AWARD DETAILS", ar: "تفاصيل الجائزة" },
   "awards.bsc": { en: "B.Sc. in Computer Science (HTI)", ar: "بكالوريوس علوم الحاسب (HTI)" },
   "awards.ddd": { en: "Clean Architecture & DDD Expert", ar: "خبير المعمارية النظيفة و DDD" },
