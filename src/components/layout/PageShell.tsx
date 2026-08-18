@@ -13,6 +13,8 @@ interface PageShellProps {
   className?: string;
   /** Optional ref for pages with pointer-driven main content. */
   mainRef?: Ref<HTMLElement>;
+  /** Disable the outer overflow-x-hidden wrapper. Useful when children rely on sticky positioning. */
+  disableOverflowX?: boolean;
 }
 
 /**
@@ -25,9 +27,10 @@ export function PageShell({
   padded = true,
   className,
   mainRef,
+  disableOverflowX = false,
 }: PageShellProps) {
   return (
-    <div className="flex min-h-screen select-none flex-col overflow-x-hidden bg-background text-foreground">
+    <div className={cn("flex min-h-screen select-none flex-col bg-background text-foreground", !disableOverflowX && "overflow-x-hidden")}>
       <Navbar />
       <main
         ref={mainRef}
