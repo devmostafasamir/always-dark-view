@@ -19,15 +19,19 @@ const ICONS = [Award, Compass, ShieldCheck, Rocket, Database, Container, Languag
 const EASE = [0.22, 1, 0.36, 1] as const;
 const AUTOPLAY_MS = 7000;
 
-/** Groups of 3 credentials → one carousel slide each. */
+/** Always 3 slides × exactly 3 credentials (wraps around when data runs out). */
 function useSlides() {
   return useMemo(() => {
     const items = credentials.filter((c) => c.tab === "certifications" || c.tab === "education");
+    if (!items.length) return [] as CredentialItem[][];
     const slides: CredentialItem[][] = [];
-    for (let i = 0; i < items.length; i += 3) slides.push(items.slice(i, i + 3));
-    return slides.slice(0, 3);
+    for (let s = 0; s < 3; s++) {
+      slides.push([0, 1, 2].map((j) => items[(s * 3 + j) % items.length]!));
+    }
+    return slides;
   }, []);
 }
+
 
 export function Testimonials() {
   const { tr, lang, isRTL } = useI18n();
@@ -88,29 +92,63 @@ export function Testimonials() {
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, ease: EASE }}
             >
-              <span className="font-sans text-xs font-black tracking-[0.2em] text-foreground/80 uppercase block mb-3">
-                No{" "}
-                <span className="inline-block relative w-[2ch] align-baseline">
+              <div className="flex items-end gap-3 mb-4">
+                <span className="font-sans text-xs font-black tracking-[0.2em] text-foreground/60 uppercase pb-3">
+                  No
+                </span>
+                <span className="relative inline-block h-[4.5rem] w-[2.4ch] overflow-hidden leading-none">
                   <AnimatePresence mode="popLayout" initial={false}>
                     <motion.span
                       key={activeIdx}
-                      initial={reduce ? {} : { y: 8, opacity: 0 }}
+                      initial={reduce ? {} : { y: 40, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={reduce ? {} : { y: -8, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: EASE }}
-                      className="absolute inset-0 text-primary"
+                      exit={reduce ? {} : { y: -40, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: EASE }}
+                      className="absolute inset-0 font-['Oswald',sans-serif] text-[4.5rem] font-bold text-primary leading-none"
                     >
-                      {activeIdx + 1}
+                      {String(activeIdx + 1).padStart(2, "0")}
                     </motion.span>
                   </AnimatePresence>
                 </span>
-                /{total}
-              </span>
-              <h2 className="font-['Oswald',sans-serif] text-4xl sm:text-5xl font-bold text-foreground leading-tight mb-8">
+                <span className="font-['Oswald',sans-serif] text-2xl font-bold text-foreground/40 pb-2">
+                  /{String(total).padStart(2, "0")}
+                </span>
+              </div>
+              <h2 className="font-['Oswald',sans-serif] text-4xl sm:text-5xl font-bold text-foreground leading-tight mb-6">
                 {tr("awards.title1")}
                 <br />
                 {tr("awards.title2")}
               </h2>
+
+              {/* Slide meta */}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeIdx}
+                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: EASE }}
+                  className="mb-8 space-y-3"
+                >
+                  <div className="flex flex-wrap gap-2">
+                    {slide.map((item) => (
+                      <span
+                        key={item.id}
+                        className="rounded-full border border-border bg-foreground/5 px-3 py-1 font-sans text-[10px] font-black uppercase tracking-widest text-foreground/70"
+                      >
+                        {item.year}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="font-sans text-xs leading-relaxed text-foreground/60">
+                    {slide.map((i) => i.org[lang]).join(" · ")}
+                  </p>
+                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.2em] text-foreground/45">
+                    {slide.length} {tr("awards.itemsLabel")}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+
             </motion.div>
 
             <div className="flex items-center gap-3">
@@ -188,11 +226,19 @@ export function Testimonials() {
               )}
 
               {/* Side cards */}
-              <div className="flex flex-col gap-5">
+              <div className="flex h-full flex-col gap-5">
                 {side.map((item, i) => (
-                  <SideCard key={item.id} item={item} lang={lang} reduce={!!reduce} index={i + 1} />
+                  <SideCard
+                    key={item.id}
+                    item={item}
+                    lang={lang}
+                    reduce={!!reduce}
+                    index={i + 1}
+                    viewLabel={tr("awards.viewCredential")}
+                  />
                 ))}
               </div>
+
             </motion.div>
           </AnimatePresence>
         </div>
@@ -230,7 +276,7 @@ function FeaturedCard({
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: EASE, delay: reduce ? 0 : 0.08 * index }}
-      className="relative rounded-2xl bg-card p-8 border border-border shadow-[var(--shadow-glow)] flex flex-col items-center text-center"
+      className="relative h-full rounded-2xl bg-card p-8 border border-border shadow-[var(--shadow-glow)] flex flex-col items-center text-center"
     >
       <span className="rounded-xl bg-foreground/10 px-4 py-1 font-sans text-[10px] font-black tracking-widest text-primary uppercase mb-6 border border-border">
         {item.year}
@@ -252,25 +298,6 @@ function FeaturedCard({
         {item.summary[lang]}
       </p>
 
-      <button
-        onClick={onToggle}
-        aria-expanded={open}
-        className="group inline-flex items-center gap-3 rounded-xl bg-background px-6 py-3 shadow-md border border-border transition-transform hover:scale-105"
-      >
-        <span className="grid size-6 place-items-center rounded-xl bg-primary text-primary-foreground">
-          <motion.span
-            animate={{ rotate: open ? 90 : 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="grid place-items-center"
-          >
-            <Play className="size-3 fill-primary-foreground text-primary-foreground ms-0.5" />
-          </motion.span>
-        </span>
-        <span className="font-sans text-xs font-black tracking-[0.2em] text-foreground uppercase">
-          {detailsLabel}
-        </span>
-      </button>
-
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
@@ -287,7 +314,7 @@ function FeaturedCard({
               variants={{
                 show: { transition: { staggerChildren: reduce ? 0 : 0.05, delayChildren: 0.1 } },
               }}
-              className="mt-6 space-y-2 text-start"
+              className="space-y-2 text-start"
             >
               {item.highlights[lang].map((h) => (
                 <motion.li
@@ -315,27 +342,49 @@ function FeaturedCard({
               ))}
             </div>
             {item.credentialId && (
-              <p className="mt-3 font-sans text-[10px] tracking-widest text-card-foreground/60 uppercase">
+              <p className="mt-3 mb-1 font-sans text-[10px] tracking-widest text-card-foreground/60 uppercase">
                 {item.credentialId}
               </p>
             )}
           </motion.div>
         )}
       </AnimatePresence>
+
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="group mt-auto w-full inline-flex items-center justify-center gap-3 rounded-xl bg-background px-6 py-3 shadow-md border border-border transition-transform hover:scale-[1.03]"
+      >
+        <span className="grid size-6 place-items-center rounded-xl bg-primary text-primary-foreground">
+          <motion.span
+            animate={{ rotate: open ? 90 : 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="grid place-items-center"
+          >
+            <Play className="size-3 fill-primary-foreground text-primary-foreground ms-0.5" />
+          </motion.span>
+        </span>
+        <span className="font-sans text-xs font-black tracking-[0.2em] text-foreground uppercase">
+          {detailsLabel}
+        </span>
+      </button>
     </motion.div>
   );
 }
+
 
 function SideCard({
   item,
   lang,
   reduce,
   index,
+  viewLabel,
 }: {
   item: CredentialItem;
   lang: "en" | "ar";
   reduce: boolean;
   index: number;
+  viewLabel: string;
 }) {
   const Icon = iconFor(item.id);
   return (
@@ -344,7 +393,7 @@ function SideCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: EASE, delay: reduce ? 0 : 0.08 * index }}
       whileHover={reduce ? {} : { y: -6 }}
-      className="rounded-2xl bg-card p-6 border border-border shadow-md flex flex-col items-center text-center hover:bg-card/90 transition-colors"
+      className="flex-1 rounded-2xl bg-card p-6 border border-border shadow-md flex flex-col items-center text-center hover:bg-card/90 transition-colors"
     >
       <div className="grid size-12 place-items-center rounded-xl bg-foreground/10 text-foreground mb-3">
         <Icon className="size-6 text-primary" />
@@ -358,6 +407,19 @@ function SideCard({
       <span className="rounded-xl bg-foreground/10 px-3 py-0.5 font-sans text-[9px] font-black tracking-widest text-primary uppercase border border-border">
         {item.year}
       </span>
+
+      <a
+        href={item.url ?? "/experience"}
+        target={item.url ? "_blank" : undefined}
+        rel={item.url ? "noreferrer" : undefined}
+        className="mt-auto pt-5 w-full"
+      >
+        <span className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 font-sans text-[10px] font-black uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-primary hover:text-primary-foreground">
+          {viewLabel}
+          <ChevronRight className="size-3.5 rtl:rotate-180" />
+        </span>
+      </a>
     </motion.div>
   );
 }
+
