@@ -19,15 +19,19 @@ const ICONS = [Award, Compass, ShieldCheck, Rocket, Database, Container, Languag
 const EASE = [0.22, 1, 0.36, 1] as const;
 const AUTOPLAY_MS = 7000;
 
-/** Groups of 3 credentials → one carousel slide each. */
+/** Always 3 slides × exactly 3 credentials (wraps around when data runs out). */
 function useSlides() {
   return useMemo(() => {
     const items = credentials.filter((c) => c.tab === "certifications" || c.tab === "education");
+    if (!items.length) return [] as CredentialItem[][];
     const slides: CredentialItem[][] = [];
-    for (let i = 0; i < items.length; i += 3) slides.push(items.slice(i, i + 3));
-    return slides.slice(0, 3);
+    for (let s = 0; s < 3; s++) {
+      slides.push([0, 1, 2].map((j) => items[(s * 3 + j) % items.length]!));
+    }
+    return slides;
   }, []);
 }
+
 
 export function Testimonials() {
   const { tr, lang, isRTL } = useI18n();
