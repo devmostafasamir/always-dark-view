@@ -228,9 +228,17 @@ export function Testimonials() {
               {/* Side cards */}
               <div className="flex flex-col gap-5">
                 {side.map((item, i) => (
-                  <SideCard key={item.id} item={item} lang={lang} reduce={!!reduce} index={i + 1} />
+                  <SideCard
+                    key={item.id}
+                    item={item}
+                    lang={lang}
+                    reduce={!!reduce}
+                    index={i + 1}
+                    viewLabel={tr("awards.viewCredential")}
+                  />
                 ))}
               </div>
+
             </motion.div>
           </AnimatePresence>
         </div>
