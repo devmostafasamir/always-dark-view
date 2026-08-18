@@ -298,25 +298,6 @@ function FeaturedCard({
         {item.summary[lang]}
       </p>
 
-      <button
-        onClick={onToggle}
-        aria-expanded={open}
-        className="group inline-flex items-center gap-3 rounded-xl bg-background px-6 py-3 shadow-md border border-border transition-transform hover:scale-105"
-      >
-        <span className="grid size-6 place-items-center rounded-xl bg-primary text-primary-foreground">
-          <motion.span
-            animate={{ rotate: open ? 90 : 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="grid place-items-center"
-          >
-            <Play className="size-3 fill-primary-foreground text-primary-foreground ms-0.5" />
-          </motion.span>
-        </span>
-        <span className="font-sans text-xs font-black tracking-[0.2em] text-foreground uppercase">
-          {detailsLabel}
-        </span>
-      </button>
-
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
@@ -333,7 +314,7 @@ function FeaturedCard({
               variants={{
                 show: { transition: { staggerChildren: reduce ? 0 : 0.05, delayChildren: 0.1 } },
               }}
-              className="mt-6 space-y-2 text-start"
+              className="space-y-2 text-start"
             >
               {item.highlights[lang].map((h) => (
                 <motion.li
@@ -361,16 +342,36 @@ function FeaturedCard({
               ))}
             </div>
             {item.credentialId && (
-              <p className="mt-3 font-sans text-[10px] tracking-widest text-card-foreground/60 uppercase">
+              <p className="mt-3 mb-1 font-sans text-[10px] tracking-widest text-card-foreground/60 uppercase">
                 {item.credentialId}
               </p>
             )}
           </motion.div>
         )}
       </AnimatePresence>
+
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="group mt-auto w-full inline-flex items-center justify-center gap-3 rounded-xl bg-background px-6 py-3 shadow-md border border-border transition-transform hover:scale-[1.03]"
+      >
+        <span className="grid size-6 place-items-center rounded-xl bg-primary text-primary-foreground">
+          <motion.span
+            animate={{ rotate: open ? 90 : 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="grid place-items-center"
+          >
+            <Play className="size-3 fill-primary-foreground text-primary-foreground ms-0.5" />
+          </motion.span>
+        </span>
+        <span className="font-sans text-xs font-black tracking-[0.2em] text-foreground uppercase">
+          {detailsLabel}
+        </span>
+      </button>
     </motion.div>
   );
 }
+
 
 function SideCard({
   item,
