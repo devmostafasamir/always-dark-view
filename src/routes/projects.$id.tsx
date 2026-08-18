@@ -30,7 +30,7 @@ import { ProjectDetailSkeleton } from "@/components/ui/Skeletons";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { IMAGE_SIZES } from "@/lib/image";
 import { useI18n } from "@/lib/i18n";
-import { useLocalizedContent, latinProps } from "@/lib/localize";
+import { useLocalizedContent } from "@/lib/localize";
 import { pageSeo } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/site";
 
