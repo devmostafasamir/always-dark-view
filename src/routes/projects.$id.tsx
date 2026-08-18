@@ -372,16 +372,6 @@ function ProjectDetail() {
           {/* Sticky Sidebar */}
           <aside className="space-y-8 lg:sticky lg:top-[calc(var(--nav-h,4.5rem)+1.25rem)] lg:col-span-4">
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
-              {/* macOS style window bar */}
-              <div className="relative z-10 flex items-center gap-2 border-b border-border bg-muted/60 px-4 py-3 backdrop-blur">
-                <span className="size-3 rounded-full bg-[#ff5f57]" />
-                <span className="size-3 rounded-full bg-[#febc2e]" />
-                <span className="size-3 rounded-full bg-[#28c840]" />
-                <span className="ms-3 font-sans text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
-                  {tr("project.detail.brief")}
-                </span>
-              </div>
-
               <div className="relative p-8 md:p-10">
               <div className="pointer-events-none absolute -top-24 -right-24 size-64 rounded-xl bg-primary/10 blur-[100px]" />
 
