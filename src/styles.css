@@ -550,3 +550,32 @@
   transform: scaleX(-1);
 }
 
+
+/* ── Theme toggle: circular View Transition reveal ───────────────────────── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Outgoing theme stays put; incoming theme is clipped open from the toggle */
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+html.theme-transition-reverse::view-transition-old(root) {
+  z-index: 2;
+}
+html.theme-transition-reverse::view-transition-new(root) {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
