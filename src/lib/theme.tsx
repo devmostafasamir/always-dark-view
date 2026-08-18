@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
 type Theme = "dark" | "light";
@@ -13,7 +14,7 @@ const PAINT: Record<Theme, string> = {
 interface ThemeContextValue {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
+  toggleTheme: (origin?: { x: number; y: number }) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -115,7 +116,61 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     explicitRef.current = true;
     setThemeState(next);
   };
-  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+
+  /**
+   * Toggles with a circular reveal growing from the clicked control
+   * (View Transitions API). Falls back to an instant swap where unsupported
+   * or when the visitor asked for reduced motion.
+   */
+  const toggleTheme = (origin?: { x: number; y: number }) => {
+    const next: Theme = theme === "dark" ? "light" : "dark";
+    const doc = typeof document !== "undefined" ? (document as Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> };
+    }) : null;
+
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+    if (!doc?.startViewTransition || reduced || !origin) {
+      setTheme(next);
+      return;
+    }
+
+    const root = doc.documentElement;
+    root.classList.add("theme-transitioning");
+
+    const transition = doc.startViewTransition(() => {
+      flushSync(() => setTheme(next));
+    });
+
+    transition.ready
+      .then(() => {
+        const { x, y } = origin;
+        const radius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y),
+        );
+        root.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${radius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 480,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        );
+      })
+      .catch(() => {});
+
+    transition.finished
+      .catch(() => {})
+      .finally(() => root.classList.remove("theme-transitioning"));
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
