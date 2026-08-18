@@ -370,7 +370,7 @@ function ProjectDetail() {
           </div>
 
           {/* Sticky Sidebar */}
-          <aside className="space-y-8 lg:sticky lg:top-[calc(var(--nav-h,4.5rem)+1.25rem)] lg:col-span-4">
+          <aside className="space-y-8 lg:sticky lg:top-24 lg:col-span-4 lg:self-start lg:h-fit">
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
               <div className="relative p-8 md:p-10">
               <div className="pointer-events-none absolute -top-24 -right-24 size-64 rounded-xl bg-primary/10 blur-[100px]" />
