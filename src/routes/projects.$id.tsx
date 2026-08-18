@@ -196,7 +196,7 @@ function ProjectDetail() {
                 {item.value}
               </div>
               {item.hint && (
-                <div className="mt-1.5 text-xs text-foreground/50" {...latinProps}>
+                <div dir="ltr" className="mt-1.5 text-xs text-foreground/50 keep-latin">
                   {item.hint}
                 </div>
               )}
