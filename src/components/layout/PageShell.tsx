@@ -13,6 +13,8 @@ interface PageShellProps {
   className?: string;
   /** Optional ref for pages with pointer-driven main content. */
   mainRef?: Ref<HTMLElement>;
+  /** Disable the outer overflow-x-hidden wrapper. Useful when children rely on sticky positioning. */
+  disableOverflowX?: boolean;
 }
 
 /**
