@@ -547,15 +547,15 @@ function BriefRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-start gap-5">
-      <div className="mt-1 rounded-xl border border-border/50 bg-foreground/5 p-2.5 text-primary">
+    <div className="flex items-start gap-4">
+      <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Icon className="size-5" />
       </div>
-      <div>
-        <div className="mb-1.5 text-[10px] font-black tracking-widest uppercase text-foreground/50">
+      <div className="flex flex-col justify-center">
+        <div className="mb-0.5 text-[10px] font-black tracking-widest uppercase text-muted-foreground">
           {label}
         </div>
-        <div className="text-base font-bold">{children}</div>
+        <div className="text-base font-bold leading-snug text-foreground">{children}</div>
       </div>
     </div>
   );
