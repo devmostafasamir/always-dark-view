@@ -451,7 +451,9 @@ function ProjectDetail() {
                   </a>
                 )}
               </div>
+              </div>
             </div>
+
           </aside>
         </div>
 
