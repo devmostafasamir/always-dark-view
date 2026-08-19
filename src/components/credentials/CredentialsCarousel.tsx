@@ -39,7 +39,7 @@ export function CredentialsCarousel() {
           <AnimatePresence mode="wait" custom={dir} initial={false}>
             <motion.div
               key={activeIdx}
-              className="grid min-w-0 touch-pan-y grid-cols-1 items-stretch gap-5 sm:gap-6 md:grid-cols-2 md:items-stretch lg:col-span-8 lg:col-start-5 lg:row-span-3 lg:row-start-1 lg:gap-8 lg:self-stretch"
+              className="grid min-w-0 touch-pan-y grid-cols-1 items-stretch gap-5 sm:gap-6 md:grid-cols-2 md:items-stretch lg:col-span-8 lg:col-start-5 lg:row-span-3 lg:row-start-1 lg:gap-8 lg:self-start"
               initial={reduce ? { opacity: 0 } : { opacity: 0, x: enterX }}
               animate={{ opacity: 1, x: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, x: -enterX }}
