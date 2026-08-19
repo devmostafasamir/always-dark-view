@@ -33,7 +33,7 @@ export function CredentialsCarousel() {
       }}
     >
       <div className="container-page">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:grid-rows-[auto_1fr_auto] lg:items-stretch lg:gap-10">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:items-start lg:gap-x-10 lg:gap-y-8">
           <CredentialSlideMeta slide={slide} activeIdx={activeIdx} total={total} reduce={reduce} />
 
           <AnimatePresence mode="wait" custom={dir} initial={false}>
