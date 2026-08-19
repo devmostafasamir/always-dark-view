@@ -33,13 +33,13 @@ export function CredentialsCarousel() {
       }}
     >
       <div className="container-page">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:items-start lg:gap-x-10 lg:gap-y-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:items-stretch lg:gap-x-10 lg:gap-y-8">
           <CredentialSlideMeta slide={slide} activeIdx={activeIdx} total={total} reduce={reduce} />
 
           <AnimatePresence mode="wait" custom={dir} initial={false}>
             <motion.div
               key={activeIdx}
-              className="grid min-w-0 touch-pan-y grid-cols-1 items-stretch gap-5 sm:gap-6 md:grid-cols-2 md:items-stretch lg:col-span-8 lg:col-start-5 lg:row-span-3 lg:row-start-1 lg:gap-8 lg:self-start"
+              className="grid min-w-0 touch-pan-y grid-cols-1 items-stretch gap-5 sm:gap-6 md:grid-cols-2 md:items-stretch lg:col-span-8 lg:col-start-5 lg:row-span-3 lg:row-start-1 lg:gap-8 lg:self-stretch"
               initial={reduce ? { opacity: 0 } : { opacity: 0, x: enterX }}
               animate={{ opacity: 1, x: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, x: -enterX }}
