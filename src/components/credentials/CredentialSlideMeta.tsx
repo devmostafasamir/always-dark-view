@@ -16,7 +16,7 @@ export function CredentialSlideMeta({ slide, activeIdx, total, reduce }: Credent
 
   return (
     <motion.div
-      className="flex min-w-0 flex-col gap-6 lg:col-span-4"
+      className="flex min-w-0 flex-col gap-6 lg:col-span-4 lg:col-start-1 lg:row-start-1"
       initial={reduce ? {} : { opacity: 0, y: 24 }}
       whileInView={reduce ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
